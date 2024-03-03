@@ -26,4 +26,8 @@ public class AuthController {
                 (RespuestaDTO)session.getAttribute("estatus"):
                 new RespuestaDTO();
     }
+    @PostMapping("logout")
+    public void logout(HttpSession session) {
+        session.invalidate();
+    }
 }

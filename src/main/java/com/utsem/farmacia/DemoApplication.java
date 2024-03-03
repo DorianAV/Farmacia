@@ -19,7 +19,7 @@ public class DemoApplication {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://127.0.0.1:5500","http://localhost:63342")
+                        .allowedOrigins("http://127.0.0.1:5500","http://localhost:63342","http://localhost:63343")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);

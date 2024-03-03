@@ -52,7 +52,7 @@ public class UsuarioService {
                 usuarioRepository.save(usuario);
                 return "Registro exitoso";
             } catch (Exception e) {
-                return "Hubo un error al realizar el registro"; // Retorna false si hubo un error al guardar
+                return "Hubo un error al realizar el registro";
             }
         }
         else return "Ya hay una cuenta con ese usuario";
