@@ -31,6 +31,7 @@ public class FabricanteService {
         }
         else return "Ya hay un fabricante con ese nombre";
     }
+
     public List<FabricanteDTO> listar() {
         return fabricanteRepository.findAll()
                 .stream()
