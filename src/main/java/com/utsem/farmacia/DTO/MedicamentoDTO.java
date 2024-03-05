@@ -1,34 +1,15 @@
-package com.utsem.farmacia.Model;
+package com.utsem.farmacia.DTO;
 
-import jakarta.persistence.*;
+import com.utsem.farmacia.Model.Fabricante;
 
-@Entity
-public class Medicamento {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
+public class MedicamentoDTO {
     private String nombre;
-    @Column
     private String sustancia_activa;
-    @Column
     private int dosis;
-    @Column
     private String via_de_administracion;
-    @Column
     private String precio;
-    @Column(unique = true)
     private int codigo_de_barras;
-    @ManyToOne
     private Fabricante fabricante;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;

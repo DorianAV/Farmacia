@@ -3,6 +3,8 @@ package com.utsem.farmacia.Model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 public class Fabricante {
     @Id
@@ -12,6 +14,9 @@ public class Fabricante {
     private String nombre;
     @Column
     private String telefono;
+    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid=UUID.randomUUID();
 
     public Long getId() {
         return id;
@@ -35,5 +40,13 @@ public class Fabricante {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }
