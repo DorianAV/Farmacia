@@ -2,14 +2,16 @@ package com.utsem.farmacia.DTO;
 
 import com.utsem.farmacia.Model.Fabricante;
 
+import java.util.UUID;
+
 public class MedicamentoDTO {
     private String nombre;
     private String sustancia_activa;
     private int dosis;
     private String via_de_administracion;
-    private String precio;
-    private int codigo_de_barras;
-    private Fabricante fabricante;
+    private double precio;
+    private int codigoDeBarras;
+    private FabricanteDTO fabricanteDTO;
 
     public String getNombre() {
         return nombre;
@@ -43,27 +45,28 @@ public class MedicamentoDTO {
         this.via_de_administracion = via_de_administracion;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public int getCodigo_de_barras() {
-        return codigo_de_barras;
+    public int getCodigoDeBarras() {
+        return codigoDeBarras;
     }
 
-    public void setCodigo_de_barras(int codigo_de_barras) {
-        this.codigo_de_barras = codigo_de_barras;
+    public void setCodigoDeBarras(int codigoDeBarras) {
+        this.codigoDeBarras = codigoDeBarras;
     }
 
-    public Fabricante getFabricante() {
-        return fabricante;
+
+    public FabricanteDTO getFabricanteDTO() {
+        return fabricanteDTO;
     }
 
-    public void setFabricante(Fabricante fabricante) {
-        this.fabricante = fabricante;
+    public void setFabricanteDTO(FabricanteDTO fabricanteDTO) {
+        this.fabricanteDTO = fabricanteDTO;
     }
 }

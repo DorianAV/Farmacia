@@ -16,9 +16,9 @@ public class Medicamento {
     @Column
     private String via_de_administracion;
     @Column
-    private String precio;
+    private double precio;
     @Column(unique = true)
-    private int codigo_de_barras;
+    private int codigoDeBarras;
     @ManyToOne
     private Fabricante fabricante;
 
@@ -62,20 +62,20 @@ public class Medicamento {
         this.via_de_administracion = via_de_administracion;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public int getCodigo_de_barras() {
-        return codigo_de_barras;
+    public int getCodigoDeBarras() {
+        return codigoDeBarras;
     }
 
-    public void setCodigo_de_barras(int codigo_de_barras) {
-        this.codigo_de_barras = codigo_de_barras;
+    public void setCodigoDeBarras(int codigo_de_barras) {
+        this.codigoDeBarras = codigo_de_barras;
     }
 
     public Fabricante getFabricante() {
