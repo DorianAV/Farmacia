@@ -1,32 +1,22 @@
-package com.utsem.farmacia.Model;
+package com.utsem.farmacia.DTO;
 
-
-import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Entity
-public class Lote {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
-    private String lote;
-    @Column
-    private Date fecha_fabricacion;
-    @Column
-    private Date fecha_caducidad;
-    @Column
-    private int existencia;
-    @ManyToOne
-    private Medicamento medicamento;
+public class LoteDTO {
 
-    public Long getId() {
-        return id;
+    private String lote;
+    private Date fecha_fabricacion;
+    private Date fecha_caducidad;
+    private int existencia;
+    private MedicamentoDTO medicamento;
+
+    public String getLote() {
+        return lote;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLote(String lote) {
+        this.lote = lote;
     }
 
     public Date getFecha_fabricacion() {
@@ -53,19 +43,11 @@ public class Lote {
         this.existencia = existencia;
     }
 
-    public Medicamento getMedicamento() {
+    public MedicamentoDTO getMedicamento() {
         return medicamento;
     }
 
-    public void setMedicamento(Medicamento medicamento) {
+    public void setMedicamento(MedicamentoDTO medicamento) {
         this.medicamento = medicamento;
-    }
-
-    public String getLote() {
-        return lote;
-    }
-
-    public void setLote(String lote) {
-        this.lote = lote;
     }
 }
