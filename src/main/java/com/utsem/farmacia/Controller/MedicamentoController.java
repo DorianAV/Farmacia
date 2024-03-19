@@ -1,6 +1,7 @@
 package com.utsem.farmacia.Controller;
 
 
+import com.utsem.farmacia.DTO.LoteDTO;
 import com.utsem.farmacia.DTO.MedicamentoDTO;
 import com.utsem.farmacia.Service.MedicamentoService;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +24,12 @@ public class MedicamentoController {
     public List<MedicamentoDTO> listar(HttpSession session) {
         if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
             return medicamentoService.listar();		}
+        return null;
+    }
+    @PostMapping("caducados")
+    public List<LoteDTO> listarCaducados(HttpSession session){
+        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+            return medicamentoService.listarCaducados();		}
         return null;
     }
     @PostMapping("registro")

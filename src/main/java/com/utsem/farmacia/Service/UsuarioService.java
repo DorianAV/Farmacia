@@ -30,11 +30,9 @@ public class UsuarioService {
             if (usuariosDTO.getRol().equals("Administrador")) {
                 res.setRuta("admin.html");
             }
-            if (usuariosDTO.getRol().equals("Gerente")) {
-                res.setRuta("gerencia.html");
-            }
+
             if (usuariosDTO.getRol().equals("Empleado")) {
-                res.setRuta("default.html");
+                res.setRuta("venta.html");
             }
             res.setAcceso(true);
             res.setRespuesta("Acceso Correcto");
