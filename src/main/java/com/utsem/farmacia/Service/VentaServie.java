@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class VentaServie {
@@ -32,7 +33,8 @@ public class VentaServie {
     @Autowired
     ModelMapper mapper;
 
-    int n=1;
+    int n = 0;
+
     public String buscaProductoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         // buscamos producto por codigo
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
@@ -49,10 +51,11 @@ public class VentaServie {
                 if (det.getLote() != null && det.getLote().getMedicamento() != null &&
                         det.getLote().getMedicamento().getCodigoDeBarras() == med.get().getCodigoDeBarras()) {
                     existe = true;
-                    if (det.getLote().getExistencia() > det.getCantidad()) {
+                    if (det.getLote().getExistencia()-1 >= det.getCantidad()) {
                         det.setCantidad(det.getCantidad() + 1);
                         det.setSubtotal((double) det.getPrecio_unitario() * det.getCantidad());
                     } else {
+
                         return "No se puede agregar más de este producto, la cantidad excede la existencia.";
                     }
                     break;
@@ -66,10 +69,14 @@ public class VentaServie {
                 detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
 
                 List<LoteDTO> lotes = obtenerLoteConCaducidadProxima(med.get().getCodigoDeBarras());
-                if (!lotes.isEmpty() && detDTO.getCantidad() < lotes.get(0).getExistencia()) {
+                System.out.println(med.get().getCodigoDeBarras());
+                System.out.println(!lotes.isEmpty());
+                System.out.println(detDTO.getCantidad() - lotes.get(0).getExistencia()>=0);
+                System.out.println(!lotes.isEmpty() && detDTO.getCantidad() < lotes.get(0).getExistencia());
+
+                if (!lotes.isEmpty() && lotes.get(0).getExistencia() - detDTO.getCantidad()>=1 ) {
                     detDTO.setLote(lotes.get(0));
                     detDTO.getLote().setMedicamento(mapper.map(med.get(), MedicamentoDTO.class));
-                    detDTO.getLote().getMedicamento().setFabricanteDTO(mapper.map(med.get().getFabricante(), FabricanteDTO.class));
                     ventaDTO.getDetalles().add(detDTO);
                 } else {
                     return "No hay suficiente existencia para agregar este producto.";
@@ -123,7 +130,7 @@ public class VentaServie {
             miDetalle.setVentas(miVenta);
             miDetalle.setLote(loteRepository.findByLote(det.getLote().getLote()));
             Lote lot = loteRepository.findByLote(miDetalle.getLote().getLote());
-            lot.setExistencia(lot.getExistencia()-miDetalle.getCantidad());
+            lot.setExistencia(lot.getExistencia() - miDetalle.getCantidad());
             detalleVentaRepository.save(miDetalle);
         }
         ventaDTO.setVentaRealizada(true);
@@ -163,12 +170,16 @@ public class VentaServie {
 
         // Convertir cada lote encontrado a un DTO y agregarlo a la lista de DTOs si la fecha de caducidad es mayor a 15 días
         for (Lote lote : lotes) {
-            if (lote.getFechaCaducidad().after(fechaMinima)) {
+            if (lote.getFechaCaducidad() != null && lote.getFechaCaducidad().after(fechaMinima)) {
                 lotesDTO.add(mapper.map(lote, LoteDTO.class));
             }
         }
 
         // Retornar la lista de lotes DTO
         return lotesDTO;
+    }
+
+    public List<VentaDTO> listar() {
+        return ventaRepository.findAll().stream().map(venta -> mapper.map(venta, VentaDTO.class)).collect(Collectors.toList());
     }
 }

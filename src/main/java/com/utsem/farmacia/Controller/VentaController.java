@@ -2,11 +2,14 @@ package com.utsem.farmacia.Controller;
 
 
 import com.utsem.farmacia.DTO.MedicamentoDTO;
+import com.utsem.farmacia.DTO.UsuarioDTO;
 import com.utsem.farmacia.DTO.VentaDTO;
 import com.utsem.farmacia.Service.VentaServie;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("venta")
@@ -44,4 +47,9 @@ public class VentaController {
     public String actualizarCantidad(HttpSession session,@PathVariable int pos,@PathVariable int cantidad) {
         return ventaService.actualizarCantidad(session,pos,cantidad);
     }
+    @PostMapping("listar")
+    public List<VentaDTO> Registro(HttpSession session) {
+        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+            return ventaService.listar();		}
+        return null;    }
 }

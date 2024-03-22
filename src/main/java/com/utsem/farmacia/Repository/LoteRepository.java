@@ -15,7 +15,7 @@ public interface LoteRepository extends JpaRepository<Lote, Long> {
     Optional<Lote> findFirstByFechaCaducidadAfterOrderByFechaCaducidadAsc(Date fecha);
     List<Lote> findByFechaCaducidadAfterOrderByFechaCaducidadAsc(Date fechaMinima);
 
-    @Query("SELECT l FROM Lote l WHERE l.medicamento.codigoDeBarras = :codigoDeBarras ORDER BY l.fechaCaducidad DESC")
+    @Query("SELECT l FROM Lote l WHERE l.medicamento.codigoDeBarras = :codigoDeBarras ORDER BY l.fechaCaducidad ASC")
     List<Lote> findAllByCodigoDeBarrasOrderByFechaCaducidadDesc(
             @Param("codigoDeBarras") int codigoDeBarras
     );

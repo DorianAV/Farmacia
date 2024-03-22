@@ -101,7 +101,7 @@ public class MedicamentoService {
     public String registro(MedicamentoDTO medicamentoDTO) {
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
         Optional<Fabricante> fab = fabricanteRepository.findByUuid(medicamentoDTO.getFabricanteDTO().getUuid());
-        if (med == null && fab.isPresent()) {
+        if (med.isEmpty() && fab.isPresent()) {
             try {
                 Medicamento medicamento = mapper.map(medicamentoDTO, Medicamento.class);
                 medicamento.setFabricante(fab.get());
