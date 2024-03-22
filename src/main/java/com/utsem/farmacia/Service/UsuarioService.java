@@ -1,5 +1,6 @@
 package com.utsem.farmacia.Service;
 
+import com.utsem.farmacia.DTO.FabricanteDTO;
 import com.utsem.farmacia.DTO.LoginDTO;
 import com.utsem.farmacia.DTO.UsuarioDTO;
 import com.utsem.farmacia.DTO.RespuestaDTO;
@@ -10,7 +11,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -55,6 +58,13 @@ public class UsuarioService {
             }
         }
         else return "Ya hay una cuenta con ese usuario";
+    }
+
+    public List<UsuarioDTO> listar() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(usuario->mapper.map(usuario, UsuarioDTO.class))
+                .collect(Collectors.toList());
     }
 
 

@@ -22,8 +22,12 @@ public class FabricanteController {
     FabricanteService fabricanteService;
 
     @PostMapping("registro")
-    public String Registro(@RequestBody Fabricante fabricante) {
-        return fabricanteService.registro(fabricante);
+    public String Registro(HttpSession session,@RequestBody Fabricante fabricante) {
+        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+
+            return fabricanteService.registro(fabricante);
+        } return null;
+
     }
     @PostMapping("listar")
     public List<FabricanteDTO> listar(HttpSession session) {

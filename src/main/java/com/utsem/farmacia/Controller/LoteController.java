@@ -18,8 +18,9 @@ public class LoteController {
     LoteService loteService;
 
     @PostMapping("registro")
-    public String Registro(@RequestBody LoteDTO lote) {
-        return loteService.registro(lote);
+    public String Registro(HttpSession session,@RequestBody LoteDTO lote) {
+        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+        return loteService.registro(lote);} return null;
     }
 
     @PostMapping("listar")

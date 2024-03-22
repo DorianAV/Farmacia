@@ -20,49 +20,58 @@ public class MedicamentoController {
 
     @PostMapping("listar")
     public List<MedicamentoDTO> listar(HttpSession session) {
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
-            return medicamentoService.listar();		}
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado")) {
+            return medicamentoService.listar();
+        }
         return null;
     }
+
     @PostMapping("filtrar")
     public List<MedicamentoDTO> filtrar(HttpSession session, @RequestBody FiltroMedicametoDTO filtros) {
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
-            return medicamentoService.filtrar(filtros);		}
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")|| session.getAttribute("rol").equals("Empleado")) {
+            return medicamentoService.filtrar(filtros);
+        }
         return null;
     }
+
     @PostMapping("caducados")
-    public List<LoteDTO> listarCaducados(HttpSession session){
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
-            return medicamentoService.listarCaducados();		}
+    public List<LoteDTO> listarCaducados(HttpSession session) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+            return medicamentoService.listarCaducados();
+        }
         return null;
     }
+
     @PostMapping("promos")
-    public List<LoteDTO> proximosCaducar(HttpSession session){
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
-            return medicamentoService.listarProximosCaducar();		}
+    public List<LoteDTO> proximosCaducar(HttpSession session) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado")) {
+            return medicamentoService.listarProximosCaducar();
+        }
         return null;
     }
+
     @PostMapping("registro")
-    public String Registro(HttpSession session,@RequestBody MedicamentoDTO medicamentoDTO) {
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+    public String Registro(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
 
-            return medicamentoService.registro(medicamentoDTO);}
-        else return null;
+            return medicamentoService.registro(medicamentoDTO);
+        } else return null;
     }
-    @PostMapping("obtener")
-    public MedicamentoDTO obtener(HttpSession session,@RequestBody MedicamentoDTO medicamentoDTO){
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
 
-            return medicamentoService.obtener(medicamentoDTO);}
-        else return null;
+    @PostMapping("obtener")
+    public MedicamentoDTO obtener(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+
+            return medicamentoService.obtener(medicamentoDTO);
+        } else return null;
     }
 
     @PostMapping("actualizar")
-    public String actualizar(HttpSession session,@RequestBody MedicamentoDTO medicamentoDTO){
-        if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
+    public String actualizar(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
 
-            return medicamentoService.actualizar(medicamentoDTO);}
-        else return null;
+            return medicamentoService.actualizar(medicamentoDTO);
+        } else return null;
     }
 
 }
