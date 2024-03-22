@@ -1,37 +1,20 @@
-package com.utsem.farmacia.Model;
+package com.utsem.farmacia.DTO;
 
-
-import jakarta.persistence.*;
+import com.utsem.farmacia.Model.Lote;
+import com.utsem.farmacia.Model.Ventas;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
 
 import java.util.UUID;
 
-@Entity
-public class Detalle_ventas {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
+public class DetalleVentaDTO {
     private int cantidad;
-    @Column
     private double precio_unitario;
-    @Column
     private double subtotal;
-
-
-    @ManyToOne
-    private Ventas ventas;
-    @ManyToOne
-    private Lote lote;
-
-
-    public Long getId() {
-        return id;
-    }
-
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private UUID uuid;
+    private LoteDTO lote = new LoteDTO();
 
     public int getCantidad() {
         return cantidad;
@@ -57,19 +40,19 @@ public class Detalle_ventas {
         this.subtotal = subtotal;
     }
 
-    public Ventas getVentas() {
-        return ventas;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setVentas(Ventas ventas) {
-        this.ventas = ventas;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
-    public Lote getLote() {
+    public LoteDTO getLote() {
         return lote;
     }
 
-    public void setLote(Lote lote) {
+    public void setLote(LoteDTO lote) {
         this.lote = lote;
     }
 }

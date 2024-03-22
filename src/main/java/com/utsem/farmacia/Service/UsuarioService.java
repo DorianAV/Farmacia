@@ -42,6 +42,7 @@ public class UsuarioService {
             session.setAttribute("credenciales", usuariosDTO);
             session.setAttribute("estatus", res);
             session.setAttribute("rol", usuariosDTO.getRol());
+            session.setAttribute("usuario", usuariosDTO.getUsuario());
             return res;
         }
     }

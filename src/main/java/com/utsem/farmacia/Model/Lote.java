@@ -16,7 +16,7 @@ public class Lote {
     @Column
     private Date fecha_fabricacion;
     @Column
-    private Date fecha_caducidad;
+    private Date fechaCaducidad;
     @Column
     private int existencia;
     @ManyToOne
@@ -38,12 +38,12 @@ public class Lote {
         this.fecha_fabricacion = fecha_fabricacion;
     }
 
-    public Date getFecha_caducidad() {
-        return fecha_caducidad;
+    public Date getFechaCaducidad() {
+        return fechaCaducidad;
     }
 
-    public void setFecha_caducidad(Date fecha_caducidad) {
-        this.fecha_caducidad = fecha_caducidad;
+    public void setFechaCaducidad(Date fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
     }
 
     public int getExistencia() {

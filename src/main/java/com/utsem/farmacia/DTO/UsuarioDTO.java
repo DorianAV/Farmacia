@@ -10,7 +10,17 @@ public class UsuarioDTO {
     private String telefono;
     private String rol;
     private byte estatus;
+    private String usuario;
+
     /////////////////////////////////
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public byte getEstatus() {
         return estatus;

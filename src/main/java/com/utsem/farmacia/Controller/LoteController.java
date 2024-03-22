@@ -25,7 +25,7 @@ public class LoteController {
 
     @PostMapping("listar")
     public List<LoteDTO> listar(HttpSession session) {
-        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+        if (session.getAttribute("rol") != null && (session.getAttribute("rol").equals("Administrador")|| session.getAttribute("rol").equals("Empleado"))) {
             return loteService.listar();
         }
         return null;

@@ -2,7 +2,9 @@ package com.utsem.farmacia.Model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 public class Ventas {
@@ -10,12 +12,42 @@ public class Ventas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private Date fecha;
+    private LocalDateTime fecha;
     @Column
-    private double total;
+    private Double total;
     @ManyToOne
     private Usuario usuarios;
+    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID uuid=UUID.randomUUID();
+    public Ventas() {
+        // Asignar la fecha actual al momento de la creación de la instancia
+        this.fecha = LocalDateTime.now();
+    }
 
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
 
     public Long getId() {
         return id;
@@ -25,21 +57,8 @@ public class Ventas {
         this.id = id;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
 
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
 
     public Usuario getUsuarios() {
         return usuarios;

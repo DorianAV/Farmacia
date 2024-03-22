@@ -7,7 +7,7 @@ public class LoteDTO {
 
     private String lote;
     private Date fecha_fabricacion;
-    private Date fecha_caducidad;
+    private Date fechaCaducidad;
     private int existencia;
     private MedicamentoDTO medicamento;
 
@@ -27,12 +27,12 @@ public class LoteDTO {
         this.fecha_fabricacion = fecha_fabricacion;
     }
 
-    public Date getFecha_caducidad() {
-        return fecha_caducidad;
+    public Date getFechaCaducidad() {
+        return fechaCaducidad;
     }
 
-    public void setFecha_caducidad(Date fecha_caducidad) {
-        this.fecha_caducidad = fecha_caducidad;
+    public void setFechaCaducidad(Date fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
     }
 
     public int getExistencia() {

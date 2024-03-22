@@ -31,9 +31,9 @@ public class LoteService {
         if (lote == null) {
             try {
                 Lote lote1 = mapper.map(loteDTO, Lote.class);
-                Medicamento med = medicamentoRepository.findByCodigoDeBarras(loteDTO.getMedicamento().getCodigoDeBarras());
+                Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(loteDTO.getMedicamento().getCodigoDeBarras());
                 System.out.println(loteDTO.getMedicamento().getCodigoDeBarras());
-                lote1.setMedicamento(med);
+                lote1.setMedicamento(med.get());
                 loteRepository.save(lote1);
                 return "Registro exitoso";
             } catch (Exception e) {
@@ -43,11 +43,11 @@ public class LoteService {
             try {
                 lote.setExistencia(lote.getExistencia() + loteDTO.getExistencia());
                 loteRepository.save(lote);
+                return "Ya existe este lote, se actualizo la existencia";
             } catch (Exception e) {
                 return "Hubo un error al realizar el registro";
             }
         }
-        return "Hubo un error al realizar el registro";
     }
 
     public List<LoteDTO> listar() {

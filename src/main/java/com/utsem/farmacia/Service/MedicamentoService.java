@@ -53,7 +53,7 @@ public class MedicamentoService {
         Date fechaActual = new Date();
         return loteRepository.findAll()
                 .stream()
-                .filter(lote -> lote.getFecha_caducidad() != null && lote.getFecha_caducidad().before(fechaActual))
+                .filter(lote -> lote.getFechaCaducidad() != null && lote.getFechaCaducidad().before(fechaActual))
                 .map(lote -> {
                     if (lote != null && lote.getMedicamento() != null) {
                         LoteDTO loteDTO = mapper.map(lote, LoteDTO.class);
@@ -80,9 +80,9 @@ public class MedicamentoService {
 
         return loteRepository.findAll()
                 .stream()
-                .filter(lote -> lote.getFecha_caducidad() != null &&
-                        lote.getFecha_caducidad().after(fechaActual) &&
-                        lote.getFecha_caducidad().before(fechaCaducidadLimite))
+                .filter(lote -> lote.getFechaCaducidad() != null &&
+                        lote.getFechaCaducidad().after(fechaActual) &&
+                        lote.getFechaCaducidad().before(fechaCaducidadLimite))
                 .map(lote -> {
                     if (lote != null && lote.getMedicamento() != null) {
                         LoteDTO loteDTO = mapper.map(lote, LoteDTO.class);
@@ -99,7 +99,7 @@ public class MedicamentoService {
 
 
     public String registro(MedicamentoDTO medicamentoDTO) {
-        Medicamento med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
+        Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
         Optional<Fabricante> fab = fabricanteRepository.findByUuid(medicamentoDTO.getFabricanteDTO().getUuid());
         if (med == null && fab.isPresent()) {
             try {
@@ -114,15 +114,15 @@ public class MedicamentoService {
     }
 
     public MedicamentoDTO obtener(MedicamentoDTO medicamentoDTO){
-        Medicamento medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
+        Optional<Medicamento> medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
         MedicamentoDTO medDto= mapper.map(medicamento, MedicamentoDTO.class);
         return medDto;
     }
     public String actualizar(MedicamentoDTO medicamentoDTO){
-        Medicamento medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
-        medicamento.setNombre(medicamentoDTO.getNombre());
-        medicamento.setPrecio(medicamentoDTO.getPrecio());
-        medicamento.setDosis(medicamentoDTO.getDosis());
+        Optional<Medicamento> medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
+        medicamento.get().setNombre(medicamentoDTO.getNombre());
+        medicamento.get().setPrecio(medicamentoDTO.getPrecio());
+        medicamento.get().setDosis(medicamentoDTO.getDosis());
         return "Actualizado";
     }
 

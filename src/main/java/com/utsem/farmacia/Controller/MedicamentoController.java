@@ -20,7 +20,7 @@ public class MedicamentoController {
 
     @PostMapping("listar")
     public List<MedicamentoDTO> listar(HttpSession session) {
-        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado")) {
+        if (session.getAttribute("rol") != null && (session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado"))) {
             return medicamentoService.listar();
         }
         return null;
@@ -28,7 +28,7 @@ public class MedicamentoController {
 
     @PostMapping("filtrar")
     public List<MedicamentoDTO> filtrar(HttpSession session, @RequestBody FiltroMedicametoDTO filtros) {
-        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")|| session.getAttribute("rol").equals("Empleado")) {
+        if (session.getAttribute("rol") != null && (session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado"))) {
             return medicamentoService.filtrar(filtros);
         }
         return null;
@@ -44,7 +44,7 @@ public class MedicamentoController {
 
     @PostMapping("promos")
     public List<LoteDTO> proximosCaducar(HttpSession session) {
-        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado")) {
+        if (session.getAttribute("rol") != null && (session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado"))) {
             return medicamentoService.listarProximosCaducar();
         }
         return null;
