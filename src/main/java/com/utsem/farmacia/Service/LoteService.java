@@ -1,6 +1,7 @@
 package com.utsem.farmacia.Service;
 
 
+import com.utsem.farmacia.DTO.FabricanteDTO;
 import com.utsem.farmacia.DTO.LoteDTO;
 import com.utsem.farmacia.DTO.MedicamentoDTO;
 import com.utsem.farmacia.Model.Fabricante;
@@ -12,7 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LoteService {
@@ -45,5 +48,17 @@ public class LoteService {
             }
         }
         return "Hubo un error al realizar el registro";
+    }
+
+    public List<LoteDTO> listar() {
+        return loteRepository.findAll()
+                .stream()
+                .map(lote -> {
+                    LoteDTO loteDTO = mapper.map(lote, LoteDTO.class);
+                    loteDTO.setMedicamento(mapper.map(lote.getMedicamento(), MedicamentoDTO.class));
+                    loteDTO.getMedicamento().setFabricanteDTO(mapper.map(lote.getMedicamento().getFabricante(), FabricanteDTO.class));
+                    return loteDTO;
+                })
+                .collect(Collectors.toList());
     }
 }

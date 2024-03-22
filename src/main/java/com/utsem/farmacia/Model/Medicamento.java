@@ -17,10 +17,14 @@ public class Medicamento {
     private String via_de_administracion;
     @Column
     private double precio;
+
     @Column(unique = true)
     private int codigoDeBarras;
+
     @ManyToOne
     private Fabricante fabricante;
+
+
 
     public Long getId() {
         return id;

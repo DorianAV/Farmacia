@@ -13,6 +13,8 @@ public class MedicamentoDTO {
     private int codigoDeBarras;
     private FabricanteDTO fabricanteDTO;
 
+
+
     public String getNombre() {
         return nombre;
     }

@@ -23,6 +23,15 @@ public class Usuario {
     private String telefono;
     @Column
     private String rol;
+    private byte estatus;
+
+    public byte getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(byte estatus) {
+        this.estatus = estatus;
+    }
 
     public Long getId() {
         return id;
