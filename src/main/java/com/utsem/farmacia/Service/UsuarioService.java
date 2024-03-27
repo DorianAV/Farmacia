@@ -51,7 +51,7 @@ public class UsuarioService {
         Optional<Usuario> username = usuarioRepository.findByUsuario(usuario.getUsuario());
         if (username.isEmpty()){
             try {
-                usuario.setEstatus((byte) 1);
+                usuario.setEstatus(true);
                 usuarioRepository.save(usuario);
                 return "Registro exitoso";
             } catch (Exception e) {

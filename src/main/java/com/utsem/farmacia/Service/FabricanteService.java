@@ -23,6 +23,7 @@ public class FabricanteService {
         Optional<Fabricante> username = fabricanteRepository.findByNombre(fabricante.getNombre());
         if (username.isEmpty()){
             try {
+                fabricante.setEstatus(true);
                 fabricanteRepository.save(fabricante);
                 return "Registro exitoso";
             } catch (Exception e) {

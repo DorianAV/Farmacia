@@ -19,8 +19,19 @@ public class Lote {
     private Date fechaCaducidad;
     @Column
     private int existencia;
+    @Column
+    private boolean estatus;
     @ManyToOne
     private Medicamento medicamento;
+
+
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public Long getId() {
         return id;

@@ -23,13 +23,14 @@ public class Usuario {
     private String telefono;
     @Column
     private String rol;
-    private byte estatus;
+    @Column
+    private boolean estatus;
 
-    public byte getEstatus() {
+    public boolean isEstatus() {
         return estatus;
     }
 
-    public void setEstatus(byte estatus) {
+    public void setEstatus(boolean estatus) {
         this.estatus = estatus;
     }
 

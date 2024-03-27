@@ -17,6 +17,16 @@ public class Fabricante {
     @Column(unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid=UUID.randomUUID();
+    @Column
+    private boolean estatus;
+
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public Long getId() {
         return id;

@@ -20,11 +20,21 @@ public class Medicamento {
 
     @Column(unique = true)
     private int codigoDeBarras;
+    @Column
+    private boolean estatus;
+
+
 
     @ManyToOne
     private Fabricante fabricante;
 
+    public boolean isEstatus() {
+        return estatus;
+    }
 
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public Long getId() {
         return id;

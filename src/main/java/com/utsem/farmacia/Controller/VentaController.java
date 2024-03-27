@@ -2,7 +2,6 @@ package com.utsem.farmacia.Controller;
 
 
 import com.utsem.farmacia.DTO.MedicamentoDTO;
-import com.utsem.farmacia.DTO.UsuarioDTO;
 import com.utsem.farmacia.DTO.VentaDTO;
 import com.utsem.farmacia.Service.VentaServie;
 import jakarta.servlet.http.HttpSession;
@@ -21,7 +20,7 @@ public class VentaController {
     public String buscaCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         if (session.getAttribute("rol") != null && (session.getAttribute("rol").equals("Administrador") || session.getAttribute("rol").equals("Empleado"))) {
 
-            return ventaService.buscaProductoPorCodigo(session, medicamentoDTO);
+            return ventaService.buscaMedicamentoPorCodigo(session, medicamentoDTO);
         }
         return null;
     }

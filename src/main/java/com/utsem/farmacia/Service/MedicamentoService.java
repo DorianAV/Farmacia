@@ -105,6 +105,7 @@ public class MedicamentoService {
             try {
                 Medicamento medicamento = mapper.map(medicamentoDTO, Medicamento.class);
                 medicamento.setFabricante(fab.get());
+                medicamento.setEstatus(true);
                 medicamentoRepository.save(medicamento);
                 return "Registro exitoso";
             } catch (Exception e) {

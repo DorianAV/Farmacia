@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -33,32 +30,47 @@ public class VentaServie {
     @Autowired
     ModelMapper mapper;
 
-    int n = 0;
 
-    public String buscaProductoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
-        // buscamos producto por codigo
+    public String buscaMedicamentoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
         if (med.isPresent()) {
-            // Si no existe venta se crea
             if (session.getAttribute("miVenta") == null) {
                 session.setAttribute("miVenta", new VentaDTO());
             }
-            // Obtenemos venta de la sesion
             VentaDTO ventaDTO = (VentaDTO) session.getAttribute("miVenta");
 
-            boolean existe = false;
-            for (DetalleVentaDTO det : ventaDTO.getDetalles()) {
-                if (det.getLote() != null && det.getLote().getMedicamento() != null &&
-                        det.getLote().getMedicamento().getCodigoDeBarras() == med.get().getCodigoDeBarras()) {
-                    existe = true;
-                    if (det.getLote().getExistencia()-1 >= det.getCantidad()) {
-                        det.setCantidad(det.getCantidad() + 1);
-                        det.setSubtotal((double) det.getPrecio_unitario() * det.getCantidad());
-                    } else {
+            Boolean existe = false;
+            List<LoteDTO> listLotes = obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras());
+            for (int i = 0; i < ventaDTO.getDetalles().size(); i++) {
+                DetalleVentaDTO det = ventaDTO.getDetalles().get(i);
+                for (int y=1;y< listLotes.size();y++){
 
-                        return "No se puede agregar más de este producto, la cantidad excede la existencia.";
+                }
+                if (det.getLote().getMedicamento().getCodigoDeBarras()==med.get().getCodigoDeBarras()) {
+                    System.out.println("El producto ya existe en la venta");
+                    if(det.getLote().getExistencia()>det.getCantidad()){
+                        det.setCantidad(det.getCantidad() + 1);
                     }
+                    else {
+                        System.out.println("Entro  y el size es:"+listLotes.size());
+                        for (int x=1;x< listLotes.size();x++){
+                            if(det.getLote().getExistencia()==det.getCantidad()){
+                                DetalleVentaDTO detDTO = new DetalleVentaDTO();
+                                detDTO.setPrecio_unitario(med.get().getPrecio());
+                                detDTO.setCantidad(1);
+                                detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
+                                detDTO.setLote(listLotes.get(x));
+                                detDTO.getLote().setMedicamento(listLotes.get(x).getMedicamento());
+                                ventaDTO.getDetalles().add(detDTO);
+                                break;
+                            }
+                        }
+                    }
+
+                    det.setSubtotal((double) det.getPrecio_unitario() * det.getCantidad());
+                    existe = true;
                     break;
+
                 }
             }
 
@@ -67,26 +79,13 @@ public class VentaServie {
                 detDTO.setPrecio_unitario(med.get().getPrecio());
                 detDTO.setCantidad(1);
                 detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
-
-                List<LoteDTO> lotes = obtenerLoteConCaducidadProxima(med.get().getCodigoDeBarras());
-                System.out.println(med.get().getCodigoDeBarras());
-                System.out.println(!lotes.isEmpty());
-                System.out.println(detDTO.getCantidad() - lotes.get(0).getExistencia()>=0);
-                System.out.println(!lotes.isEmpty() && detDTO.getCantidad() < lotes.get(0).getExistencia());
-
-                if (!lotes.isEmpty() && lotes.get(0).getExistencia() - detDTO.getCantidad()>=1 ) {
-                    detDTO.setLote(lotes.get(0));
-                    detDTO.getLote().setMedicamento(mapper.map(med.get(), MedicamentoDTO.class));
-                    ventaDTO.getDetalles().add(detDTO);
-                } else {
-                    return "No hay suficiente existencia para agregar este producto.";
-                }
+                detDTO.setLote(obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras()).get(0));
+                detDTO.getLote().setMedicamento(obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras()).get(0).getMedicamento());
+                ventaDTO.getDetalles().add(detDTO);
             }
 
-            double suma = 0;
-            for (DetalleVentaDTO det : ventaDTO.getDetalles()) {
-                suma += det.getSubtotal();
-            }
+            Double suma=(double)0;
+            for(int i = 0; i < ventaDTO.getDetalles().size(); i++)suma+=ventaDTO.getDetalles().get(i).getSubtotal();
             ventaDTO.setTotal(suma);
             return "Producto encontrado y agregado a la venta";
         } else {
@@ -153,29 +152,18 @@ public class VentaServie {
     }
 
     public List<LoteDTO> obtenerLoteConCaducidadProxima(int codigo) {
-        // Obtener la fecha actual
         Date fechaActual = new Date();
-
-        // Calcular la fecha mínima con al menos 15 días restantes
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(fechaActual);
         calendar.add(Calendar.DATE, 15);
         Date fechaMinima = calendar.getTime();
-
-        // Buscar los lotes con la fecha de caducidad más próxima y al menos 15 días restantes antes de caducar
         List<Lote> lotes = loteRepository.findAllByCodigoDeBarrasOrderByFechaCaducidadDesc(codigo);
-
-        // Crear una lista para almacenar los DTOs de los lotes encontrados
         List<LoteDTO> lotesDTO = new ArrayList<>();
-
-        // Convertir cada lote encontrado a un DTO y agregarlo a la lista de DTOs si la fecha de caducidad es mayor a 15 días
         for (Lote lote : lotes) {
-            if (lote.getFechaCaducidad() != null && lote.getFechaCaducidad().after(fechaMinima)) {
+            if (lote.getFechaCaducidad() != null && lote.getFechaCaducidad().after(fechaMinima)&&lote.isEstatus()) {
                 lotesDTO.add(mapper.map(lote, LoteDTO.class));
             }
         }
-
-        // Retornar la lista de lotes DTO
         return lotesDTO;
     }
 

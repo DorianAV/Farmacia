@@ -32,8 +32,8 @@ public class LoteService {
             try {
                 Lote lote1 = mapper.map(loteDTO, Lote.class);
                 Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(loteDTO.getMedicamento().getCodigoDeBarras());
-                System.out.println(loteDTO.getMedicamento().getCodigoDeBarras());
                 lote1.setMedicamento(med.get());
+                lote1.setEstatus(true);
                 loteRepository.save(lote1);
                 return "Registro exitoso";
             } catch (Exception e) {
