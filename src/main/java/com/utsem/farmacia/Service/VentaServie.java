@@ -96,7 +96,6 @@ public class VentaServie {
     public boolean loteExiste(List<DetalleVentaDTO> detalleslotesMedicamento, LoteDTO lote) {
         boolean a = false;
         for (int x = 0; x < detalleslotesMedicamento.size(); x++) {
-            System.out.println(lote.getLote() + "es" + (detalleslotesMedicamento.get(x).getLote().getLote() == lote.getLote()));
             if (Objects.equals(detalleslotesMedicamento.get(x).getLote().getLote(), lote.getLote())) {
                 a = true;
             }
@@ -123,8 +122,6 @@ public class VentaServie {
             List<LoteDTO> listLotes = obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras());
             if (existe) {
                 for (int n = 0; n < detalleslotesMedicamento.size(); n++) {
-                    System.out.println("Existencia " + detalleslotesMedicamento.get(n).getLote().getExistencia());
-                    System.out.println("canti " + detalleslotesMedicamento.get(n).getCantidad());
 
                     if (detalleslotesMedicamento.get(n).getLote().getExistencia() > detalleslotesMedicamento.get(n).getCantidad()) {
                         for (int i = 0; i < ventaDTO.getDetalles().size(); i++) {
@@ -136,7 +133,6 @@ public class VentaServie {
                         }
                     } else {
 
-                        //System.out.println(listLotes.get(n + 1).getLote());
                         if (listLotes.size()==n+1) return "Ya no hay mas producto";
                         if (!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1)) && loteExiste(detalleslotesMedicamento, listLotes.get(n))) {
                             DetalleVentaDTO detDTO = new DetalleVentaDTO();
