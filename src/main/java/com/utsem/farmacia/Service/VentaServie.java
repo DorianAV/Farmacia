@@ -96,7 +96,8 @@ public class VentaServie {
     public boolean loteExiste(List<DetalleVentaDTO> detalleslotesMedicamento, LoteDTO lote) {
         boolean a = false;
         for (int x = 0; x < detalleslotesMedicamento.size(); x++) {
-            if (detalleslotesMedicamento.get(x).getLote().getLote() == lote.getLote()) {
+            System.out.println(lote.getLote()+"es"+(detalleslotesMedicamento.get(x).getLote().getLote() == lote.getLote()));
+            if (Objects.equals(detalleslotesMedicamento.get(x).getLote().getLote(), lote.getLote())) {
                 a = true;
             }
         }
@@ -134,6 +135,24 @@ public class VentaServie {
                             }
                         }
                     } else {
+                        System.out.println(n);
+                        //System.out.println(listLotes.get(n + 1).getLote());
+                        System.out.println(!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1)));
+                        System.out.println(listLotes.get(n).getLote());
+                        System.out.println(loteExiste(detalleslotesMedicamento, listLotes.get(n)) );
+                        if (!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1))&&loteExiste(detalleslotesMedicamento, listLotes.get(n)) ){
+                            DetalleVentaDTO detDTO = new DetalleVentaDTO();
+                            detDTO.setPrecio_unitario(med.get().getPrecio());
+                            detDTO.setCantidad(1);
+                            detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
+                            detDTO.setLote(listLotes.get(n + 1));
+                            detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
+                            ventaDTO.getDetalles().add(detDTO);
+                            System.out.println("1 coso");
+                            break;
+
+                        }
+/*
                         if (detalleslotesMedicamento.get(n).getLote().getExistencia() == detalleslotesMedicamento.get(n).getCantidad() && detalleslotesMedicamento.get(n).getLote().getLote() != listLotes.get(n).getLote()) {
                             if (detalleslotesMedicamento.size() - 1 != 0) {
                                 System.out.println("1"+(!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1))));
@@ -166,6 +185,7 @@ public class VentaServie {
                             }
 
                         }
+*/
                     }
                 }
             }
