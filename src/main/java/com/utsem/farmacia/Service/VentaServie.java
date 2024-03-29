@@ -93,15 +93,16 @@ public class VentaServie {
 
 
     //Esta es la buena
-    public boolean coso(List<DetalleVentaDTO> detalleslotesMedicamento,LoteDTO lote){
-        boolean a= false;
-        for (int x=0;x<detalleslotesMedicamento.size();x++){
-            if(detalleslotesMedicamento.get(x).getLote().getLote()==lote.getLote()){
-                a=true;
+    public boolean loteExiste(List<DetalleVentaDTO> detalleslotesMedicamento, LoteDTO lote) {
+        boolean a = false;
+        for (int x = 0; x < detalleslotesMedicamento.size(); x++) {
+            if (detalleslotesMedicamento.get(x).getLote().getLote() == lote.getLote()) {
+                a = true;
             }
         }
         return a;
     }
+
     public String buscaMedicamentoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
         if (med.isPresent()) {
@@ -134,56 +135,39 @@ public class VentaServie {
                         }
                     } else {
                         if (detalleslotesMedicamento.get(n).getLote().getExistencia() == detalleslotesMedicamento.get(n).getCantidad() && detalleslotesMedicamento.get(n).getLote().getLote() != listLotes.get(n).getLote()) {
-                            System.out.println("1" + (listLotes.size() > n));
-                            if (listLotes.size() > n) {
-                                System.out.println(listLotes.size() + "Largolote");
-                                if (n + 1 != listLotes.size() - 1 || n + 1 != detalleslotesMedicamento.size() - 1) {
-                                    /*Boolean loteExist = false;
-
-                                    for (int m = 0; m < listLotes.size(); m++) {
-                                        for (int u = 0; u < detalleslotesMedicamento.size(); u++) {
-                                            if ( listLotes.get(m).getLote()==detalleslotesMedicamento.get(u).getLote().getLote()) {
-                                                loteExist = true;
-                                            }
-                                        }
-
-                                    }*/
-//                                    System.out.println(loteExist);
-                                    System.out.println("2" + (detalleslotesMedicamento.size() - 1 != 0));
-                                    if (detalleslotesMedicamento.size() - 1 != 0) {
-                                        if (listLotes.get(n + 1).getLote() != detalleslotesMedicamento.get(n + 1).getLote().getLote()&&coso(detalleslotesMedicamento,listLotes.get(n + 1))) {
-                                            DetalleVentaDTO detDTO = new DetalleVentaDTO();
-                                            detDTO.setPrecio_unitario(med.get().getPrecio());
-                                            detDTO.setCantidad(1);
-                                            detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
-                                            detDTO.setLote(listLotes.get(n + 1));
-                                            detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
-                                            ventaDTO.getDetalles().add(detDTO);
-                                            System.out.println("1 coso");
-                                            break;
-
-                                        }
-
-                                    } else {
-                                        DetalleVentaDTO detDTO = new DetalleVentaDTO();
-                                        detDTO.setPrecio_unitario(med.get().getPrecio());
-                                        detDTO.setCantidad(1);
-                                        detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
-                                        detDTO.setLote(listLotes.get(n + 1));
-                                        detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
-                                        ventaDTO.getDetalles().add(detDTO);
-                                        System.out.println("2 coso");
-                                        break;
-
-                                    }
+                            if (detalleslotesMedicamento.size() - 1 != 0) {
+                                System.out.println("1"+(!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1))));
+                                System.out.println("2"+(loteExiste(detalleslotesMedicamento, listLotes.get(n)) ));
+                                System.out.println(listLotes.get(n).getLote());
+                                if (!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1))&&loteExiste(detalleslotesMedicamento, listLotes.get(n)) ){
+                                    DetalleVentaDTO detDTO = new DetalleVentaDTO();
+                                    detDTO.setPrecio_unitario(med.get().getPrecio());
+                                    detDTO.setCantidad(1);
+                                    detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
+                                    detDTO.setLote(listLotes.get(n + 1));
+                                    detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
+                                    ventaDTO.getDetalles().add(detDTO);
+                                    System.out.println("1 coso");
+                                    break;
 
                                 }
-                            }
-                        }
 
+                            } else {
+                                DetalleVentaDTO detDTO = new DetalleVentaDTO();
+                                detDTO.setPrecio_unitario(med.get().getPrecio());
+                                detDTO.setCantidad(1);
+                                detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
+                                detDTO.setLote(listLotes.get(n + 1));
+                                detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
+                                ventaDTO.getDetalles().add(detDTO);
+                                System.out.println("2 coso");
+                                break;
+
+                            }
+
+                        }
                     }
                 }
-
             }
 
 
