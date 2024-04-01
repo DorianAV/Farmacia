@@ -29,70 +29,8 @@ public class VentaServie {
     LoteRepository loteRepository;
     @Autowired
     ModelMapper mapper;
-   /* public String buscaMedicamentoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
-        Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
-        if (med.isPresent()) {
-            if (session.getAttribute("miVenta") == null) {
-                session.setAttribute("miVenta", new VentaDTO());
-            }
-            VentaDTO ventaDTO = (VentaDTO) session.getAttribute("miVenta");
-
-            // Buscar lote fuera del bucle
-            List<LoteDTO> listLotes = obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras());
-            int cont =0;
-            Boolean existe = false;
-            for (DetalleVentaDTO det : ventaDTO.getDetalles()) {
-                if (det.getLote().getMedicamento().getCodigoDeBarras()==(med.get().getCodigoDeBarras())) {
-                    System.out.println("El producto ya existe en la venta");
-                    existe = true;
-                    // Incrementar cantidad solo si hay existencias disponibles
-                    if (listLotes.get(cont).getExistencia() > det.getCantidad()) {
-                        det.setCantidad(det.getCantidad() + 1);
-                    } else {
-                        cont++;
-                        // Agregar un nuevo detalle solo si no hay suficiente existencia en el lote actual
-                        for (int x = 1; x < listLotes.size(); x++) {
-                            if (det.getLote().getExistencia() == det.getCantidad() &&
-                                    !det.getLote().getLote().equals(listLotes.get(x).getLote())) {
-                                DetalleVentaDTO detDTO = new DetalleVentaDTO();
-                                detDTO.setPrecio_unitario(med.get().getPrecio());
-                                detDTO.setCantidad(1);
-                                detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
-                                detDTO.setLote(listLotes.get(x));
-                                detDTO.getLote().setMedicamento(listLotes.get(x).getMedicamento());
-                                ventaDTO.getDetalles().add(detDTO);
-                                break;
-                            }
-                        }
-                    }
-
-                    det.setSubtotal((double) det.getPrecio_unitario() * det.getCantidad());
-                    break;
-                }
-            }
-
-            if (!existe) {
-                // Agregar un nuevo detalle si el medicamento no existe en la venta
-                DetalleVentaDTO detDTO = new DetalleVentaDTO();
-                detDTO.setPrecio_unitario(med.get().getPrecio());
-                detDTO.setCantidad(1);
-                detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
-                detDTO.setLote(listLotes.get(0));
-                detDTO.getLote().setMedicamento(listLotes.get(0).getMedicamento());
-                ventaDTO.getDetalles().add(detDTO);
-            }
-
-            // Calcular el total de la venta
-            Double suma = ventaDTO.getDetalles().stream().mapToDouble(det -> det.getSubtotal()).sum();
-            ventaDTO.setTotal(suma);
-            return "Producto encontrado y agregado a la venta";
-        } else {
-            return "Producto no encontrado";
-        }
-    }*/
 
 
-    //Esta es la buena
     public boolean loteExiste(List<DetalleVentaDTO> detalleslotesMedicamento, LoteDTO lote) {
         boolean a = false;
         for (int x = 0; x < detalleslotesMedicamento.size(); x++) {
@@ -150,8 +88,6 @@ public class VentaServie {
                     }
                 }
             }
-
-
             if (!existe) {
                 DetalleVentaDTO detDTO = new DetalleVentaDTO();
                 detDTO.setPrecio_unitario(med.get().getPrecio());

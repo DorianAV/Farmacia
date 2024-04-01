@@ -121,6 +121,8 @@ public class MedicamentoService {
     }
     public String actualizar(MedicamentoDTO medicamentoDTO){
         Optional<Medicamento> medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
+        System.out.println(medicamentoDTO.getCodigoDeBarras());
+        System.out.println(medicamento.get().getCodigoDeBarras());
         medicamento.get().setNombre(medicamentoDTO.getNombre());
         medicamento.get().setPrecio(medicamentoDTO.getPrecio());
         medicamento.get().setDosis(medicamentoDTO.getDosis());
