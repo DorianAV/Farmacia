@@ -43,7 +43,7 @@ public class VentaServie {
 
     public String buscaMedicamentoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
-        if (med.isPresent()) {
+        if (med.isPresent()&&med.get().isEstatus()) {
             if (session.getAttribute("miVenta") == null) {
                 session.setAttribute("miVenta", new VentaDTO());
             }
@@ -71,7 +71,7 @@ public class VentaServie {
                         }
                     } else {
 
-                        if (listLotes.size()==n+1) return "Ya no hay mas producto";
+                        if (listLotes.size()==n+1||!(listLotes.get(n).getExistencia()>0)) return "Ya no hay mas producto";
                         if (!loteExiste(detalleslotesMedicamento, listLotes.get(n + 1)) && loteExiste(detalleslotesMedicamento, listLotes.get(n))) {
                             DetalleVentaDTO detDTO = new DetalleVentaDTO();
                             detDTO.setPrecio_unitario(med.get().getPrecio());
@@ -89,6 +89,7 @@ public class VentaServie {
                 }
             }
             if (!existe) {
+                if (!(obtenerLoteConCaducidadProxima(medicamentoDTO.getCodigoDeBarras()).get(0).getExistencia()>0)) return "Producto no encontrado";
                 DetalleVentaDTO detDTO = new DetalleVentaDTO();
                 detDTO.setPrecio_unitario(med.get().getPrecio());
                 detDTO.setCantidad(1);

@@ -9,7 +9,7 @@ public class UsuarioDTO {
     private String correo;
     private String telefono;
     private String rol;
-    private byte estatus;
+    private boolean estatus;
     private String usuario;
 
     /////////////////////////////////
@@ -22,11 +22,12 @@ public class UsuarioDTO {
         this.usuario = usuario;
     }
 
-    public byte getEstatus() {
+
+    public boolean isEstatus() {
         return estatus;
     }
 
-    public void setEstatus(byte estatus) {
+    public void setEstatus(boolean estatus) {
         this.estatus = estatus;
     }
 

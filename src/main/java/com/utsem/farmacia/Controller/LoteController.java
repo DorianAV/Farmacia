@@ -1,6 +1,7 @@
 package com.utsem.farmacia.Controller;
 
 import com.utsem.farmacia.DTO.LoteDTO;
+import com.utsem.farmacia.DTO.MedicamentoDTO;
 import com.utsem.farmacia.Service.LoteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,18 @@ public class LoteController {
         }
         return null;
     }
+    @PostMapping("actualizar")
+    public String actualizar(HttpSession session, @RequestBody LoteDTO loteDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
 
+            return loteService.actualizar(loteDTO);
+        } else return null;
+    }
+    @PostMapping("obtener")
+    public LoteDTO obtener(HttpSession session, @RequestBody LoteDTO loteDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+
+            return loteService.obtener(loteDTO);
+        } else return null;
+    }
 }

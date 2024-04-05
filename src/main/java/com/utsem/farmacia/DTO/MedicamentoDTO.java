@@ -11,9 +11,17 @@ public class MedicamentoDTO {
     private String via_de_administracion;
     private double precio;
     private int codigoDeBarras;
+    private boolean estatus;
+
     private FabricanteDTO fabricanteDTO;
 
+    public boolean isEstatus() {
+        return estatus;
+    }
 
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public String getNombre() {
         return nombre;

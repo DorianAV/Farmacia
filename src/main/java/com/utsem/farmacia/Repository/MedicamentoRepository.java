@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.util.Optional;
 
 public interface MedicamentoRepository extends JpaRepository<Medicamento, Long>, JpaSpecificationExecutor<Medicamento> {
-//    Medicamento findByCodigoDeBarras(int codigoDeBarras);
     Optional<Medicamento> findByCodigoDeBarras(int codigoDeBarras);
     Medicamento deleteByCodigoDeBarras(int codigoDeBarras);
 }

@@ -30,21 +30,29 @@ public class UsuarioService {
             return res;
         } else {
             UsuarioDTO usuariosDTO = mapper.map(usuario.get(), UsuarioDTO.class);
-            if (usuariosDTO.getRol().equals("Administrador")) {
-                res.setRuta("admin.html");
+            if (usuariosDTO.isEstatus()){
+                if (usuariosDTO.getRol().equals("Administrador")) {
+                    res.setRuta("admin.html");
+                }
+
+                if (usuariosDTO.getRol().equals("Empleado")) {
+                    res.setRuta("venta.html");
+                }
+                res.setAcceso(true);
+                res.setRespuesta("Acceso Correcto");
+                session.setAttribute("credenciales", usuariosDTO);
+                session.setAttribute("estatus", res);
+                session.setAttribute("rol", usuariosDTO.getRol());
+                session.setAttribute("usuario", usuariosDTO.getUsuario());
+                return res;
+            }
+            else {
+                res.setRespuesta("Acceso Denegado");
+                return res;
             }
 
-            if (usuariosDTO.getRol().equals("Empleado")) {
-                res.setRuta("venta.html");
-            }
-            res.setAcceso(true);
-            res.setRespuesta("Acceso Correcto");
-            session.setAttribute("credenciales", usuariosDTO);
-            session.setAttribute("estatus", res);
-            session.setAttribute("rol", usuariosDTO.getRol());
-            session.setAttribute("usuario", usuariosDTO.getUsuario());
-            return res;
         }
+
     }
 
     public String registro(Usuario usuario) {

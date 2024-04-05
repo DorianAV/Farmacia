@@ -119,15 +119,25 @@ public class MedicamentoService {
         MedicamentoDTO medDto= mapper.map(medicamento, MedicamentoDTO.class);
         return medDto;
     }
-    public String actualizar(MedicamentoDTO medicamentoDTO){
-        Optional<Medicamento> medicamento = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
-        System.out.println(medicamentoDTO.getCodigoDeBarras());
-        System.out.println(medicamento.get().getCodigoDeBarras());
-        medicamento.get().setNombre(medicamentoDTO.getNombre());
-        medicamento.get().setPrecio(medicamentoDTO.getPrecio());
-        medicamento.get().setDosis(medicamentoDTO.getDosis());
-        return "Actualizado";
+    public String actualizar(MedicamentoDTO medicamentoDTO) {
+        Optional<Medicamento> medicamentoOptional = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
+
+        if (medicamentoOptional.isPresent()) {
+            Medicamento med = medicamentoOptional.get();
+            System.out.println(medicamentoDTO.getCodigoDeBarras());
+            System.out.println(med.getCodigoDeBarras());
+            med.setNombre(medicamentoDTO.getNombre());
+            System.out.println(medicamentoDTO.getNombre());
+            med.setPrecio(medicamentoDTO.getPrecio());
+            med.setDosis(medicamentoDTO.getDosis());
+            med.setEstatus(medicamentoDTO.isEstatus());
+            medicamentoRepository.save(med);
+            return "Actualizado";
+        } else {
+            return "No se encontró el medicamento para actualizar";
+        }
     }
+
 
 
 }

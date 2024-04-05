@@ -9,7 +9,16 @@ public class LoteDTO {
     private Date fecha_fabricacion;
     private Date fechaCaducidad;
     private int existencia;
+    private boolean estatus;
     private MedicamentoDTO medicamento;
+
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public String getLote() {
         return lote;

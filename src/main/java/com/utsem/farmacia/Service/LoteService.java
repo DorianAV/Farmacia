@@ -61,4 +61,22 @@ public class LoteService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public LoteDTO obtener(LoteDTO loteDTO) {
+        Lote lote = loteRepository.findByLote(loteDTO.getLote());
+
+        LoteDTO loteDTO1 = mapper.map(lote, LoteDTO.class);
+        return loteDTO1;
+    }
+
+    public String actualizar(LoteDTO loteDTO) {
+        Lote lote = loteRepository.findByLote(loteDTO.getLote());
+        System.out.println(loteDTO.getLote());
+        System.out.println(lote.getLote());
+        lote.setEstatus(loteDTO.isEstatus());
+        lote.setExistencia(loteDTO.getExistencia());
+        loteRepository.save(lote);
+        return "Actualizado";
+
+    }
 }
