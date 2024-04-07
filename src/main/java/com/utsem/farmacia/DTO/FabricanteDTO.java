@@ -7,7 +7,15 @@ public class FabricanteDTO {
     private String nombre;
     private String telefono;
     private UUID uuid;
+    private boolean estatus;
 
+    public boolean isEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(boolean estatus) {
+        this.estatus = estatus;
+    }
 
     public String getNombre() {
         return nombre;

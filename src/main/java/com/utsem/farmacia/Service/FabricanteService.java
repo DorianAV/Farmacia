@@ -1,8 +1,10 @@
 package com.utsem.farmacia.Service;
 
 import com.utsem.farmacia.DTO.FabricanteDTO;
+import com.utsem.farmacia.DTO.LoteDTO;
 import com.utsem.farmacia.DTO.MedicamentoDTO;
 import com.utsem.farmacia.Model.Fabricante;
+import com.utsem.farmacia.Model.Lote;
 import com.utsem.farmacia.Repository.FabricanteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,25 @@ public class FabricanteService {
                 .stream()
                 .map(fabricante->mapper.map(fabricante, FabricanteDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public FabricanteDTO obtener(FabricanteDTO fabricanteDTO) {
+        Optional<Fabricante> fabricante = fabricanteRepository.findByUuid(fabricanteDTO.getUuid());
+
+        FabricanteDTO fabricanteDTO1 = mapper.map(fabricante, FabricanteDTO.class);
+        return fabricanteDTO1;
+    }
+    public String actualizar(FabricanteDTO fabricanteDTO) {
+        Optional<Fabricante> fabricante = fabricanteRepository.findByUuid(fabricanteDTO.getUuid());
+
+        if (fabricante.isPresent()){
+            fabricante.get().setEstatus(fabricanteDTO.isEstatus());
+            fabricante.get().setNombre(fabricanteDTO.getNombre());
+            fabricante.get().setTelefono(fabricanteDTO.getTelefono());
+            fabricanteRepository.save(fabricante.get());
+            return "Actualizado";
+        }
+        else return "Hubo un error";
+
     }
 }

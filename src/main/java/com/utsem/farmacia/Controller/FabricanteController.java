@@ -2,6 +2,7 @@ package com.utsem.farmacia.Controller;
 
 
 import com.utsem.farmacia.DTO.FabricanteDTO;
+import com.utsem.farmacia.DTO.LoteDTO;
 import com.utsem.farmacia.DTO.MedicamentoDTO;
 import com.utsem.farmacia.Model.Fabricante;
 import com.utsem.farmacia.Service.FabricanteService;
@@ -34,5 +35,19 @@ public class FabricanteController {
         if(session.getAttribute("rol")!=null && session.getAttribute("rol").equals("Administrador")) {
             return fabricanteService.listar();		}
         return null;
+    }
+    @PostMapping("obtener")
+    public FabricanteDTO obtener(HttpSession session, @RequestBody FabricanteDTO fabricanteDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+
+            return fabricanteService.obtener(fabricanteDTO);
+        } else return null;
+    }
+    @PostMapping("actualizar")
+    public String actualizar(HttpSession session, @RequestBody FabricanteDTO fabricanteDTO) {
+        if (session.getAttribute("rol") != null && session.getAttribute("rol").equals("Administrador")) {
+
+            return fabricanteService.actualizar(fabricanteDTO);
+        } else return null;
     }
 }
