@@ -43,7 +43,7 @@ public class VentaServie {
 
     public String buscaMedicamentoPorCodigo(HttpSession session, @RequestBody MedicamentoDTO medicamentoDTO) {
         Optional<Medicamento> med = medicamentoRepository.findByCodigoDeBarras(medicamentoDTO.getCodigoDeBarras());
-        if (med.isPresent()&&med.get().isEstatus()) {
+        if (med.isPresent()) {
             if (session.getAttribute("miVenta") == null) {
                 session.setAttribute("miVenta", new VentaDTO());
             }
