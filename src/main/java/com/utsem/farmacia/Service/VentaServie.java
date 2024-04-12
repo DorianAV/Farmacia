@@ -66,6 +66,7 @@ public class VentaServie {
                             DetalleVentaDTO det = ventaDTO.getDetalles().get(i);
                             if (det.getLote().getLote() == detalleslotesMedicamento.get(n).getLote().getLote()) {
                                 det.setCantidad(detalleslotesMedicamento.get(n).getCantidad() + 1);
+                                det.setSubtotal(det.getPrecio_unitario() * det.getCantidad());
                                 break;
                             }
                         }
@@ -76,7 +77,7 @@ public class VentaServie {
                             DetalleVentaDTO detDTO = new DetalleVentaDTO();
                             detDTO.setPrecio_unitario(med.get().getPrecio());
                             detDTO.setCantidad(1);
-                            detDTO.setSubtotal((double) detDTO.getPrecio_unitario() * detDTO.getCantidad());
+                            detDTO.setSubtotal(detDTO.getPrecio_unitario() * detDTO.getCantidad());
                             detDTO.setLote(listLotes.get(n + 1));
                             detDTO.getLote().setMedicamento(listLotes.get(n + 1).getMedicamento());
                             ventaDTO.getDetalles().add(detDTO);
